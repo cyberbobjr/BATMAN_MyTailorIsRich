@@ -72,9 +72,9 @@ function ISToolTipInv:render()
 		if stage == 2 then
 			local col; -- {r,g,b}
 			if cache_render_type then
-				local col = TYPE_COLOR[cache_render_type] or TYPE_COLOR.RED_UNKNOWN;
+				local color = TYPE_COLOR[cache_render_type] or TYPE_COLOR.RED_UNKNOWN;
 				local font = UIFont[getCore():getOptionTooltipFont()];
-				self.tooltip:DrawText(font, cache_render_text, 5, save_th-5, col[1], col[2], col[3], 1);
+				self.tooltip:DrawText(font, cache_render_text, 5, save_th-5, color[1], color[2], color[3], 1);
 			end
 			stage = 3
 		else

@@ -12,15 +12,13 @@ end
 STAR_MODS.SizeLabels.getFemaleWeight = getFemaleWeight
 
 local function getWeightFixed(player)
-    local w = player:getNutrition():getWeight()
+    local weight = player:getNutrition():getWeight()
     if player:isFemale() then
-        return getFemaleWeight(w)
+        return getFemaleWeight(weight)
     end
-    return w
+    return weight
 end
 STAR_MODS.SizeLabels.getWeightFixed = getWeightFixed
-
-
 
 -- Simple Status mod compatibility
 if SimpleStatus and SimpleStatus.valueFn and SimpleStatus.colorFn then
@@ -70,6 +68,7 @@ end
 local CSIZE = { "XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL" }
 STAR_MODS.SizeLabels.CSIZE = CSIZE
 local CMSIZE = { "(XXS)", "(XS)", "(S)", "(M)", "(L)", "(XL)", "(XXL)", "(XXXL)" }
+STAR_MODS.SizeLabels.CMSIZE = CMSIZE
 local CHANCE = { 40, 140, 220, 330, 170, 50, 30, 20 }
 do
     local sum = 0
@@ -124,47 +123,48 @@ GLOBAL_CLOTHES_SLOTS = {
 }
 local SLOTS = GLOBAL_CLOTHES_SLOTS
 
-local function getSizeMale(w)
-    if w > 120 then
+local function getSizeMale(weight)
+    if weight > 120 then
         return 8
-    elseif w > 105 then
+    elseif weight > 105 then
         return 7
-    elseif w > 91 then
+    elseif weight > 91 then
         return 6
-    elseif w > 76 then
+    elseif weight > 76 then
         return 5
-    elseif w > 63 then
+    elseif weight > 63 then
         return 4
-    elseif w > 55 then
+    elseif weight > 55 then
         return 3
-    elseif w > 46 then
+    elseif weight > 46 then
         return 2
     end
     return 1
 end
-local function getSizeFemale(w)
-    if w > 105 then
+local function getSizeFemale(weight)
+    if weight > 105 then
         return 8
-    elseif w > 95 then
+    elseif weight > 95 then
         return 7
-    elseif w > 79 then
+    elseif weight > 79 then
         return 6
-    elseif w > 67 then
+    elseif weight > 67 then
         return 5
-    elseif w > 60 then
+    elseif weight > 60 then
         return 4
-    elseif w > 49 then
+    elseif weight > 49 then
         return 3
-    elseif w > 44 then
+    elseif weight > 44 then
         return 2
     end
     return 1
-end
-local function getSizeChr(chr)
-    local w = getWeightFixed(chr)
-    return chr:isFemale() and getSizeFemale(w) or getSizeMale(w)
 end
 
+local function getSizeChr(chr)
+    local weight = getWeightFixed(chr)
+    return chr:isFemale() and getSizeFemale(weight) or getSizeMale(weight)
+end
+STAR_MODS.SizeLabels.getSizeChr = getSizeChr
 
 --CSize
 do
@@ -215,14 +215,6 @@ do
         end
         return old_drawText(self, s, x, y, a, b, c, d, font, ...)
     end
-
-    --local function new_drawRect(self,x,y,w,h,...)
-    --	if h == 1 and is_wait_rect and smallFontHgt then
-    --		is_wait_rect = false
-    --		y = y - smallFontHgt + 5
-    --	end
-    --	return old_drawRect(self,x,y,w,h,...)
-    --end
 
     local function new_drawTexture(self, ...)
         if is_found_icon and not is_found_weight then
@@ -715,10 +707,6 @@ do
         end
         while sz > 10 do
             sz = sz - 10
-        end
-        if not sz then
-            sz = getRandomCSize()
-            mod_data.sz = sz + 10
         end
         local space = sz - getSizeChr(character)
         if space > -1 then
