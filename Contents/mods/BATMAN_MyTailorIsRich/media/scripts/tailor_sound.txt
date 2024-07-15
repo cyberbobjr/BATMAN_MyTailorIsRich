@@ -1,0 +1,25 @@
+module Base {
+
+    sound tailoringSewingMachine {
+        category = Item,
+        clip
+        {
+            file = media/sound/sewing-machine.ogg,
+            distanceMin = 8,
+            distanceMax = 18,
+            reverbMaxRange = 0,
+            reverbFactor = 0,
+            volume = 0.5,
+        }
+    }
+
+    sound Drawing_B
+    {
+        category = Object,
+        clip
+        {
+            file = media/sound/Drawing_B.ogg,
+            volume = 0.5,
+        }
+    }
+}

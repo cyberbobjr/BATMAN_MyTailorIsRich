@@ -1,0 +1,5 @@
+ContextMenu_FR = {
+    ContextMenu_Sew = "Coudre",
+    ContextMenu_Need = "Besoins :",
+    ContextMenu_RenameItem = "Renommer le patron"
+}

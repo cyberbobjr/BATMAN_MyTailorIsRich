@@ -1,0 +1,16 @@
+version=1
+id=3286449255
+title=[HERE THEY COME] - My Tailor Is Rich
+description=[b]A big AllInOne tailoring mod which replace "Tailor Overhaul" "Size Label" & "Tailoring fix" + Add the possibility to create sewing pattern from existing cloth[b]
+description=
+description=[h2]Create your own sewing pattern with your existing Clothes [/h2]
+description=With a paper and a pen, you can take a cloth and put down a Sewing Pattern.
+description=Beware because this operation will destroy your cloth.
+description=
+description=[h2]Compatible with :[/h2]
+description=- Machines! (the sewing machine is mandatory)
+description=- STFR
+description=- zRE Armor System
+description=- zRE Vaccine 2.0
+tags=Build 41;Multiplayer
+visibility=unlisted

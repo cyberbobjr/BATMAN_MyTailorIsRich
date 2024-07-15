@@ -1,0 +1,4 @@
+Recipes_FR = {
+	Recipe_Learn_Clothing_Design = "Faire un patron de couture",
+	Recipe_rip_notebook = "Déchirer le bloc-note en feuille de papier",
+}

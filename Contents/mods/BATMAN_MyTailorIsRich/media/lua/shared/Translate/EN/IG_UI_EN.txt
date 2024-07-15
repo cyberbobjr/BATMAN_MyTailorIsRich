@@ -1,0 +1,27 @@
+IGUI_EN = {
+    IGUI_SM_Cotton = "Cotton"
+    IGUI_SM_Denim = "Jean",
+    IGUI_SM_Leather = "Cuir",
+    IGUI_SM_Kevlar = "Kevlar",
+    IGUI_SM_Thread = "Fil",
+	IGUI_CraftCategory_Tailoring = "Tailoring",
+	IGUI_HTCTailoring_CantLearn = "That seems too difficult for now...",
+
+    IGUI_sewingpattern = "Sewing pattern of ",
+
+    IGUI_OK = "Ok",
+    IGUI_CANCEL = "Cancel",
+    IGUI_CHOOSE_SIZELABEL = "Choose a Size Label",
+	IGUI_char_CSize = "Size",
+    IGUI_B_Spacious = "(Spacious)",
+    IGUI_B_Tight = "(Tight)",
+    IGUI_B_Fit = "(Fit)",
+    IGUI_SL_CantWear = "Can't wear it",
+    IGUI_CheckLabel = "Check Label",
+    IGUI_JobType_CheckLabel = "Label",
+    IGUI_CutLabel = "Cut Label",
+    IGUI_JobType_CutLabel = "Cut",
+    IGUI_NoLabel_Say1 = "Where is it?",
+    IGUI_NoLabel_Say2 = "Can't find it",
+    IGUI_NoLabel_Say3 = "Shit!",
+}

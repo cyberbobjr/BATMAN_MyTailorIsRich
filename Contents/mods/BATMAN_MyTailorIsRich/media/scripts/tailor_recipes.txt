@@ -1,0 +1,182 @@
+module HTCTailoring
+{
+	imports {
+		Base /*Import base to avoid need of calling "Base.RippedSheets" or similar*/
+	}
+
+    item sewingpattern {
+        Weight			= 0.0025,
+		Type			= Drainable,
+		DisplayName		= sewing pattern,
+		DisplayCategory	= Tailoring,
+		Icon			= Paper,
+		UseDelta    	= 0.33,
+		KeepOnDeplete   = true,
+		WorldStaticModel= SheetOfPaper,
+    }
+
+	recipe Make Thread
+	{
+		keep [Recipe.GetItemTypes.Scissors],
+		RippedSheets/DenimStrips=8,
+
+		CanBeDoneFromFloor:true,
+		Result:Thread=1,
+		Time:100.0,
+		Category:Tailoring,
+		OnGiveXP:Recipe.OnGiveXP.Tailoring3,
+	}
+
+    recipe rip notebook {
+        Notebook=1,
+		Result:SheetPaper2=5,
+
+		Category:Literature,
+		Time:10.0,
+		CanBeDoneFromFloor:true,
+    }
+
+	recipe Learn Clothing Design {
+		keep [Recipe.GetItemTypes.Write],
+		keep [Recipe.GetItemTypes.RipClothing_Cotton],
+        SheetPaper2=1,
+
+		Result:RippedSheets,
+		Category:Tailoring,
+		Time:100.0,
+		CanBeDoneFromFloor:false,
+		RemoveResultItem:True,
+		Sound:Drawing_B,
+		OnCreate:Recipe.OnCreate.HTC_MTIR_CreateSewingPatternFromItem,
+	}
+
+	recipe Learn Clothing Design {
+		keep [Recipe.GetItemTypes.Write],
+		keep [Recipe.GetItemTypes.RipClothing_Denim],
+        SheetPaper2=1,
+
+		Result:DenimStrips,
+		Category:Tailoring,
+		Time:100.0,
+		CanBeDoneFromFloor:false,
+		RemoveResultItem:True,
+		Sound:Drawing_B,
+		OnCreate:Recipe.OnCreate.HTC_MTIR_CreateSewingPatternFromItem,
+	}
+
+	recipe Learn Clothing Design {
+		keep [Recipe.GetItemTypes.Write],
+		keep [Recipe.GetItemTypes.zReRAC_Is_Armor],
+        SheetPaper2=1,
+
+		Result:zReKevlar,
+		Category:Tailoring,
+		Time:100.0,
+		CanBeDoneFromFloor:false,
+		RemoveResultItem:True,
+		Sound:Drawing_B,
+		OnCreate:Recipe.OnCreate.HTC_MTIR_CreateSewingPatternFromItem,
+	}
+
+	recipe Learn Clothing Design {
+		keep [Recipe.GetItemTypes.Write],
+		keep [Recipe.GetItemTypes.zReRAC_Is_Armor_Chemsuits],
+        SheetPaper2=1,
+
+		Result:zReRubberizedFabrics,
+		Category:Tailoring,
+		Time:100.0,
+		CanBeDoneFromFloor:false,
+		RemoveResultItem:True,
+		Sound:Drawing_B,
+		OnCreate:Recipe.OnCreate.HTC_MTIR_CreateSewingPatternFromItem,
+	}
+
+	recipe Learn Clothing Design {
+		keep [Recipe.GetItemTypes.Write],
+		keep [Recipe.GetItemTypes.RipClothing_Leather],
+        SheetPaper2=1,
+
+		Result:LeatherStrips,
+		Category:Tailoring,
+		Time:100.0,
+		CanBeDoneFromFloor:false,
+		RemoveResultItem:True,
+		Sound:Drawing_B,
+		OnCreate:Recipe.OnCreate.HTC_MTIR_CreateSewingPatternFromItem,
+	}
+
+    recipe Make Twine from Thread
+    {
+        Thread=15,
+
+        CanBeDoneFromFloor:true,
+        Result:Twine=1,
+        Time:300.0,
+        Category:Tailoring,
+    }
+
+    recipe Make Thread from Twine
+    {
+        keep Scissors,
+        Twine=4,
+
+        CanBeDoneFromFloor:true,
+        Result:Thread=1,
+        Time:300.0,
+        Category:Tailoring,
+    }
+
+    recipe Make Rope from Twine
+    {
+        Twine=15,
+
+        CanBeDoneFromFloor:true,
+        Result:Rope=1,
+        Time:300.0,
+        Category:Tailoring,
+    }
+
+    recipe Make Twine from Rope
+    {
+        Rope=1,
+
+        CanBeDoneFromFloor:true,
+        Result:Twine=3,
+        Time:300.0,
+        Category:Tailoring,
+    }
+
+    recipe Craft Sheet Rope
+    {
+        RippedSheets=2,
+
+        CanBeDoneFromFloor:true,
+        Result:SheetRope=1,
+        Time:1.0,
+        Category:Tailoring,
+    }
+
+    recipe Craft Ripped Sheets
+    {
+        SheetRope=1,
+
+        CanBeDoneFromFloor:true,
+        Result:RippedSheets=2,
+        Time:1.0,
+        Category:Tailoring,
+    }
+
+    recipe Craft Sheet
+    {
+        keep Needle,
+        RippedSheets=6,
+        Twine/Thread/FishingLine=2,
+
+        CanBeDoneFromFloor:true,
+        Result:Sheet=1,
+        Time:300.0,
+        Category:Tailoring,
+        OnGiveXP:Recipe.OnGiveXP.Tailoring5,
+    }
+}
