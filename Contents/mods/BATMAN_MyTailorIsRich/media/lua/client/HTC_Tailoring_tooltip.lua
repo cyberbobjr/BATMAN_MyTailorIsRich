@@ -107,7 +107,7 @@ local function getSizeText(item)
         else
             local real_size = itemSize > 20 and itemSize - 20 or itemSize - 10
             local sz_mem = getSizeInMemory(item)
-            local sz_char = getSizeChr(p)
+            local sz_char = STAR_MODS.SizeLabels.getSizeChr(p)
             local space = nil
             if skill >= 5 or skill == 4 and sz_char == real_size then
                 cache_render_text_size = CMSIZE[real_size]
@@ -202,7 +202,11 @@ function ISToolTipInv:render(...)
         final_tooltip_text = cache_render_material_text
     end
     if cache_render_size_text then
-        final_tooltip_text = final_tooltip_text .. " / " .. getText("IGUI_SM_Size") .. cache_render_size_text
+        if final_tooltip_text then
+            final_tooltip_text = final_tooltip_text .. " / " .. getText("IGUI_SM_Size") .. cache_render_size_text
+        else
+            final_tooltip_text = getText("IGUI_SM_Size") .. cache_render_size_text
+        end
     end
     if not final_tooltip_text then
         return old_render(self)

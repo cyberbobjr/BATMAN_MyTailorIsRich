@@ -127,7 +127,13 @@ local items_to_fix_denim = {
     -- HATS
     "Hat_WinterHat",
     "Hat_WoolyHat",
-
+    -- BRITA
+    "Jeans_Kidman",
+    "Rose_Jeans",
+    "Jeans_James",
+    "Ashe_Jeans",
+    "Jeans_Sebastian",
+    "Jeans_Slim",
 }
 local items_to_fix_leather = {
     "Ghillie_Top",
