@@ -50,7 +50,7 @@ function Recipe.OnCreate.HTC_MTIR_CreateSewingPatternFromItem(items, result, pla
 
     local sewingPattern = player:getInventory():AddItem("HTCTailoring.sewingpattern")
     if sewingPattern then
-        sewingPattern:setName(getText("IGUI_sewingpattern") .. selectedItem:getDisplayName());
+        sewingPattern:setName(getText("IGUI_Sewingpattern") .. selectedItem:getDisplayName());
         sewingPattern:setCustomName(true);
         local sewingPatternModData = sewingPattern:getModData()
         sewingPatternModData["sewing"] = {

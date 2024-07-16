@@ -1,3 +1,4 @@
+require("sizeLabels")
 -- File: Combined_Tooltip.lua
 
 -- Déclarations de localisation et de couleur pour différents types de tissu
@@ -99,9 +100,9 @@ local function getSizeText(item)
         local skill = p:getPerkLevel(Perks.Tailoring)
         if itemSize < 10 then
             -- itemSize compris entre 1 et 8 ???
-            cache_render_text_size = CSIZE[size]
+            cache_render_text_size = CSIZE[itemSize]
             if skill < 5 then
-                addMemory(item, size)
+                addMemory(item, itemSize)
             end
         else
             local real_size = itemSize > 20 and itemSize - 20 or itemSize - 10
@@ -125,7 +126,7 @@ local function getSizeText(item)
                 space = space >= 5 - skill and 1 or (space <= -5 + skill and -1 or nil)
             end
             if space then
-                addMemory(cache_item, space + 50)
+                addMemory(item, space + 50)
                 if space == 1 then
                     cache_render_text_size = getText("IGUI_B_Spacious")
                 elseif space == -1 then
@@ -141,10 +142,43 @@ local function getSizeText(item)
     end
     return cache_render_text_size
 end
-local old_render = ISToolTipInv.render
 
--- Nouvelle méthode de rendu injectée
+local old_render = ISToolTipInv.render
 function ISToolTipInv:render()
+    -- Sewing Pattern Tooltip
+    if (not ISContextMenu.instance or not ISContextMenu.instance.visibleCheck) and self.item:getFullType() == "HTCTailoring.sewingpattern" then
+        local sewingModData = self.item:getModData()["sewing"]
+        if sewingModData then
+            local allScriptItems = getScriptManager():getItemsByType(sewingModData["itemType"])
+            local scriptItem = allScriptItems:get(0)
+            if scriptItem then
+                -- might  be nil if mod is added to an existing game and jar has been created before the mod was added
+                local hght = self.tooltip:getHeight();
+                local yPos = hght + 2;
+                local font = UIFont.Small;
+                local boxHght = (getTextManager():getFontHeight(UIFont.Small) * 2) + 5
+                self:drawRect(0, self.height, self.width, boxHght, self.backgroundColor.a, self.backgroundColor.r, self.backgroundColor.g, self.backgroundColor.b);
+                self:drawRectBorder(0, self.height, self.width, boxHght, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b);
+                local tooltip_text = scriptItem:getDisplayName()
+                local itemFabricAmount = sewingModData["itemFabricAmount"]
+                local itemFabricType = sewingModData["itemFabricType"]
+                local threadAmount = sewingModData["threadAmount"]
+                local type_tooltip_text = ""
+                if itemFabricType and itemFabricAmount then
+                    type_tooltip_text = type_tooltip_text .. itemFabricAmount .. " " .. getText("IGUI_SM_" .. HTC_MTIR_ContextMenu.MATERIAL_KEY[itemFabricType])
+                end
+                if threadAmount then
+                    type_tooltip_text = type_tooltip_text .. " / " .. threadAmount .. " " .. getText("IGUI_SM_Thread") .. "(s)"
+                end
+                self:drawText(tooltip_text, 13, yPos, 1, 1, 0.8, 1, font);
+                yPos = yPos + getTextManager():getFontHeight(UIFont.Small)
+                self:drawText(type_tooltip_text, 13, yPos, TYPE_COLOR[itemFabricType][1], TYPE_COLOR[itemFabricType][2], TYPE_COLOR[itemFabricType][3], 1, font);
+            end
+        end
+        return
+    end
+
+    -- Fabric and Size Tooltip
     local final_tooltip_text = nil
     if self.item ~= cache_render_item then
         cache_render_item = self.item
@@ -159,47 +193,48 @@ function ISToolTipInv:render()
         if cache_render_item then
             cache_render_size_text = getSizeText(cache_render_item)
         end
-
-
-        -- Ninja double injection dans l'injection
-        local stage = 1
-        local save_th = 0
-        local old_setHeight = self.setHeight
-
-        self.setHeight = function(self, num, ...)
-            if stage == 1 then
-                stage = 2
-                save_th = num
-                num = num + 18
-            else
-                stage = -1 -- erreur
-            end
-            return old_setHeight(self, num, ...)
-        end
-
-        local old_drawRectBorder = self.drawRectBorder
-
-        if cache_render_material_text then
-            final_tooltip_text = cache_render_material_text
-        end
-        if cache_render_size_text then
-            final_tooltip_text = final_tooltip_text .. " / " .. getText("IGUI_SM_Size") .. cache_render_size_text
-        end
-
-        if not final_tooltip_text then
-            return old_render(self)
-        end
-
-        self.drawRectBorder = function(self, ...)
-            if stage == 2 then
-                local font = UIFont[getCore():getOptionTooltipFont()]
-                local color = TYPE_COLOR[cache_render_type] or TYPE_COLOR.RED_UNKNOWN;
-                self.tooltip:DrawText(font, final_tooltip_text, 5, save_th - 5, color[1], color[2], color[3], 1)
-                stage = 3
-            else
-                stage = -1 -- erreur
-            end
-            return old_drawRectBorder(self, ...)
-        end
     end
+
+    if cache_render_material_text then
+        final_tooltip_text = cache_render_material_text
+    end
+    if cache_render_size_text then
+        final_tooltip_text = final_tooltip_text .. " / " .. getText("IGUI_SM_Size") .. cache_render_size_text
+    end
+    if final_tooltip_text then
+        print(final_tooltip_text)
+    end
+    if not final_tooltip_text then
+        return old_render(self)
+    end
+    -- Ninja double injection dans l'injection
+    local stage = 1
+    local save_th = 0
+    local old_setHeight = self.setHeight
+    self.setHeight = function(self, num, ...)
+        if stage == 1 then
+            stage = 2
+            save_th = num
+            num = num + 18
+        else
+            stage = -1 -- erreur
+        end
+        return old_setHeight(self, num, ...)
+    end
+    local old_drawRectBorder = self.drawRectBorder
+    self.drawRectBorder = function(self, ...)
+        print(stage)
+        if stage == 2 then
+            local font = UIFont[getCore():getOptionTooltipFont()]
+            local color = TYPE_COLOR[cache_render_type] or TYPE_COLOR.RED_UNKNOWN;
+            self.tooltip:DrawText(font, final_tooltip_text, 5, save_th - 5, color[1], color[2], color[3], 1)
+            stage = 3
+        else
+            stage = -1 -- erreur
+        end
+        return old_drawRectBorder(self, ...)
+    end
+    old_render(self)
+    self.setHeight = old_setHeight
+    self.drawRectBorder = old_drawRectBorder
 end
