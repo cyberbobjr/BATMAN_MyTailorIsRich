@@ -144,11 +144,14 @@ local function getSizeText(item)
 end
 
 local old_render = ISToolTipInv.render
-function ISToolTipInv:render()
+function ISToolTipInv:render(...)
     -- Sewing Pattern Tooltip
-    if (not ISContextMenu.instance or not ISContextMenu.instance.visibleCheck) and self.item:getFullType() == "HTCTailoring.sewingpattern" then
+    if self.item:getFullType() == "HTCTailoring.sewingpattern" then
         local sewingModData = self.item:getModData()["sewing"]
         if sewingModData then
+            if old_render then
+                old_render(self, ...) -- execute vanilla code
+            end
             local allScriptItems = getScriptManager():getItemsByType(sewingModData["itemType"])
             local scriptItem = allScriptItems:get(0)
             if scriptItem then
@@ -201,9 +204,6 @@ function ISToolTipInv:render()
     if cache_render_size_text then
         final_tooltip_text = final_tooltip_text .. " / " .. getText("IGUI_SM_Size") .. cache_render_size_text
     end
-    if final_tooltip_text then
-        print(final_tooltip_text)
-    end
     if not final_tooltip_text then
         return old_render(self)
     end
@@ -223,7 +223,6 @@ function ISToolTipInv:render()
     end
     local old_drawRectBorder = self.drawRectBorder
     self.drawRectBorder = function(self, ...)
-        print(stage)
         if stage == 2 then
             local font = UIFont[getCore():getOptionTooltipFont()]
             local color = TYPE_COLOR[cache_render_type] or TYPE_COLOR.RED_UNKNOWN;
