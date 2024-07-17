@@ -116,6 +116,13 @@ HTC_MTIR_ContextMenu.onRenameItem = function(sewingPatternItem, playerNum)
     end
 end
 
+HTC_MTIR_ContextMenu.onEditModData = function(sewingPatternItem, playerNum)
+    local sewingModData = sewingPatternItem:getModData()["sewing"]
+    if sewingModData then
+        openISTailoringAdminUI(sewingPatternItem)
+    end
+end
+
 HTC_MTIR_ContextMenu.BuildContext = function(_plID, _context, _items)
     local playerObj = getPlayer(_plID);
     ---@type InventoryItem
@@ -133,11 +140,7 @@ HTC_MTIR_ContextMenu.BuildContext = function(_plID, _context, _items)
                 _context:addOption(getText("ContextMenu_RenameItem"), itemObj, HTC_MTIR_ContextMenu.onRenameItem, _plID)
 
                 local sewingModData = itemObj:getModData()["sewing"]
-                local modId = sewingModData["modId"]
                 local itemType = sewingModData["itemType"]
-                --if modId then
-                --    itemType = modId .. "." .. itemType
-                --end
                 local allScriptItems = getScriptManager():getItemsByType(itemType)
                 local scriptItem = allScriptItems:get(0)
                 if scriptItem then
@@ -152,6 +155,10 @@ HTC_MTIR_ContextMenu.BuildContext = function(_plID, _context, _items)
                     tooltip.description = tooltipDescription
                     option.toolTip = tooltip
                     option.notAvailable = not available
+                end
+
+                if isDebugEnabled() or isAdmin() then
+                    _context:addOption(getText("ContextMenu_EditModData"), itemObj, HTC_MTIR_ContextMenu.onEditModData, _plID)
                 end
             end
         end

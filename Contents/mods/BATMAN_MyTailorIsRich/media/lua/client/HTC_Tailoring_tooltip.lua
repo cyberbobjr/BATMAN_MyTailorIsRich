@@ -159,14 +159,12 @@ function ISToolTipInv:render(...)
                 local hght = self.tooltip:getHeight();
                 local yPos = hght + 2;
                 local font = UIFont.Small;
-                local boxHght = (getTextManager():getFontHeight(UIFont.Small) * 2) + 5
-                self:drawRect(0, self.height, self.width, boxHght, self.backgroundColor.a, self.backgroundColor.r, self.backgroundColor.g, self.backgroundColor.b);
-                self:drawRectBorder(0, self.height, self.width, boxHght, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b);
                 local tooltip_text = scriptItem:getDisplayName()
                 local itemFabricAmount = sewingModData["itemFabricAmount"]
                 local itemFabricType = sewingModData["itemFabricType"]
                 local threadAmount = sewingModData["threadAmount"]
                 local type_tooltip_text = ""
+                local nbLinesTooltip = 0
                 if itemFabricType and itemFabricAmount then
                     type_tooltip_text = type_tooltip_text .. itemFabricAmount .. " " .. getText("IGUI_SM_" .. HTC_MTIR_ContextMenu.MATERIAL_KEY[itemFabricType])
                 end
@@ -174,8 +172,18 @@ function ISToolTipInv:render(...)
                     type_tooltip_text = type_tooltip_text .. " / " .. threadAmount .. " " .. getText("IGUI_SM_Thread") .. "(s)"
                 end
                 self:drawText(tooltip_text, 13, yPos, 1, 1, 0.8, 1, font);
+                nbLinesTooltip = nbLinesTooltip + 1
                 yPos = yPos + getTextManager():getFontHeight(UIFont.Small)
                 self:drawText(type_tooltip_text, 13, yPos, TYPE_COLOR[itemFabricType][1], TYPE_COLOR[itemFabricType][2], TYPE_COLOR[itemFabricType][3], 1, font);
+                nbLinesTooltip = nbLinesTooltip + 1
+                if isDebugEnabled() or isAdmin() then
+                    yPos = yPos + getTextManager():getFontHeight(UIFont.Small)
+                    self:drawText(sewingModData["modId"] .. " / " .. sewingModData["itemType"], 13, yPos, 1, 1, 1, 1, font);
+                    nbLinesTooltip = nbLinesTooltip + 1
+                end
+                local boxHght = (getTextManager():getFontHeight(UIFont.Small) * nbLinesTooltip) + 5
+                self:drawRect(0, self.height, self.width, boxHght, self.backgroundColor.a, self.backgroundColor.r, self.backgroundColor.g, self.backgroundColor.b);
+                self:drawRectBorder(0, self.height, self.width, boxHght, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b);
             end
         end
         return

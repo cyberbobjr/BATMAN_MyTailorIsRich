@@ -3,6 +3,9 @@ require "TimedActions/ISBaseTimedAction"
 ISSewPattern = ISBaseTimedAction:derive("ISSewPattern")
 
 function ISSewPattern:isValid()
+    if self.debug() then
+        return true
+    end
     local playerInv = self.character:getInventory()
 
     local threadCount = playerInv:getCountType("Base.Thread")
@@ -73,11 +76,13 @@ function ISSewPattern:perform()
     local materialTypeNeed = self.sewingModData["itemFabricType"]
     local materialTypeCountNeed = self.sewingModData["itemFabricAmount"]
     local threadCountNeed = self.sewingModData["threadAmount"]
-    for i = 1, materialTypeCountNeed do
-        playerInv:RemoveOneOf(HTC_MTIR_ContextMenu.MATERIAL_KEY[materialTypeNeed])
-    end
-    for i = 1, threadCountNeed do
-        playerInv:RemoveOneOf("Base.Thread")
+    if not self.debug then
+        for i = 1, materialTypeCountNeed do
+            playerInv:RemoveOneOf(HTC_MTIR_ContextMenu.MATERIAL_KEY[materialTypeNeed])
+        end
+        for i = 1, threadCountNeed do
+            playerInv:RemoveOneOf("Base.Thread")
+        end
     end
     local itemType = self.sewingModData["itemType"]
     local modId = self.sewingModData["modId"]
@@ -107,8 +112,18 @@ function ISSewPattern:new(character, sewingPattern, sewingMachine, sizelabel)
     o.stopOnWalk = true
     o.stopOnRun = true
     o.maxTime = 300
+    o.debug = isDebugEnabled() or isAdmin()
     if character:isTimedActionInstant() then
         o.maxTime = 1
+    end
+    if o.debug then
+        print(sewingPattern:getModData()["sewing"]["modId"])
+        print(sewingPattern:getModData()["sewing"]["itemType"])
+        print(sewingPattern:getModData()["sewing"]["itemFabricType"])
+        print(sewingPattern:getModData()["sewing"]["itemFabricAmount"])
+        print(sewingPattern:getModData()["sewing"]["threadAmount"])
+        print(sewingMachine)
+        print(sizelabel)
     end
     return o
 end
