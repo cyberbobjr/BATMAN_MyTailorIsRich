@@ -3,7 +3,7 @@ require "TimedActions/ISBaseTimedAction"
 ISSewPattern = ISBaseTimedAction:derive("ISSewPattern")
 
 function ISSewPattern:isValid()
-    if self.debug() then
+    if self.debug then
         return true
     end
     local playerInv = self.character:getInventory()
