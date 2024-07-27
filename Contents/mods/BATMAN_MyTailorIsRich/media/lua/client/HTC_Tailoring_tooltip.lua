@@ -112,7 +112,7 @@ local function getSizeText(item)
             if skill >= 5 or skill == 4 and sz_char == real_size then
                 cache_render_text_size = CMSIZE[real_size]
                 addMemory(item, real_size)
-            elseif cache_item:isEquipped() then
+            elseif item:isEquipped() then
                 space = real_size - sz_char
                 space = space >= 1 and 1 or (space <= -1 and -1 or 0)
             elseif sz_mem then
