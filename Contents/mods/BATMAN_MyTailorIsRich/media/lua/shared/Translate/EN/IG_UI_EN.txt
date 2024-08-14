@@ -1,7 +1,7 @@
 IGUI_EN = {
     IGUI_CraftCategory_Tailoring = "Tailoring",
     IGUI_HTCTailoring_CantLearn = "That seems too difficult for now...",
-    IGUI_SM_Fabric = "Fabric : ",
+    IGUI_SM_Fabric = "Fabric",
     IGUI_char_CSize = "Size",
     IGUI_B_Fit = "(Fit)",
     IGUI_B_Spacious = "(Spacious)",
@@ -22,12 +22,13 @@ IGUI_EN = {
     IGUI_SM_Needle = "Needle",
     IGUI_SM_Kevlar = "Kevlar",
     IGUI_SM_Leather = "Leather",
-    IGUI_SM_Size = "Size : ",
+    IGUI_SM_Size = "Size",
     IGUI_SM_Thread = "Thread",
     IGUI_Sewingpattern = "Sewing pattern of ",
     IGUI_SM_DenimStrips = "Denim Strips",
     IGUI_SM_LeatherStrips = "Leather Strips",
     IGUI_SM_zReKevlar = "Reinforced Kevlar Strips",
     IGUI_SM_zReRubberizedFabrics = "Rubberized Fabrics",
-    IGUI_SM_RippedSheets = "Ripped Sheets"
+    IGUI_SM_RippedSheets = "Ripped Sheets",
+    IGUI_Choose_Heliport = "Choose your heliport location"
 }

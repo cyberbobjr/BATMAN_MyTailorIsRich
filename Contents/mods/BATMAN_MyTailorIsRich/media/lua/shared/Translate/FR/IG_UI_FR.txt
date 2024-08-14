@@ -1,7 +1,7 @@
 IGUI_FR = {
 	IGUI_SM_Cotton = "Coton",
 	IGUI_SM_Denim = "Jean",
-	IGUI_SM_Fabric = "Matière : ",
+	IGUI_SM_Fabric = "Matière",
     IGUI_B_Fit = "(Ajusté)",
     IGUI_B_Spacious = "(Large)",
     IGUI_B_Tight = "(Serré)",
@@ -24,11 +24,12 @@ IGUI_FR = {
     IGUI_SM_LeatherStrips = "Lanières en cuir",
     IGUI_SM_Needle = "Aiguille",
     IGUI_SM_RippedSheets = "Tissu déchiré",
-    IGUI_SM_Size = "Taille : ",
+    IGUI_SM_Size = "Taille",
     IGUI_SM_Thread = "Fil",
     IGUI_SM_zReKevlar = "Bandes de Kevlar",
     IGUI_SM_zReRubberizedFabrics = "Tissu Caoutchouté",
     IGUI_char_CSize = "Taille",
     IGUI_Sewingpattern = "Patron de ",
+    IGUI_Choose_Heliport = "Choisissez l'endroit d'héliportage"
 }
 
